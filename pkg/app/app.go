@@ -18,6 +18,7 @@ func Start() {
 
 	// register / route
 	router.Handle("/", gh.CombinedLoggingHandler(os.Stdout, http.HandlerFunc(appRoot)))
+
 	//router.Handle("/info", gh.CombinedLoggingHandler(os.Stdout, http.HandlerFunc(appInfo)))
 
 	// try to start the app and log output
