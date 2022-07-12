@@ -17,7 +17,7 @@ func Start() {
 	router := mux.NewRouter()
 
 	router.Handle("/", gh.CombinedLoggingHandler(os.Stdout, http.HandlerFunc(appRoot)))
-	router.Handle("/info", gh.CombinedLoggingHandler(os.Stdout, http.HandlerFunc(appInfo)))
+	//router.Handle("/info", gh.CombinedLoggingHandler(os.Stdout, http.HandlerFunc(appInfo)))
 
 	// try to start the app and log output
 	log.Info("Starting server on port " + HttpPort)

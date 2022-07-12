@@ -6,8 +6,9 @@ import (
 )
 
 // Set up struct
-type Test struct {
+type AppSetting struct {
 	Greeting string
+	Color    string
 }
 
 // Locate where the templates are
@@ -17,8 +18,9 @@ const InfoHtml string = "html/info.tmpl"
 // appRoot is the HTTP root of the application
 func appRoot(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles(IndexHtml))
-	greet := Test{
-		Greeting: "Hello, World!",
+	greet := AppSetting{
+		Greeting: "Blue",
+		Color:    "blue",
 	}
 
 	// Display index page from template
@@ -27,12 +29,13 @@ func appRoot(w http.ResponseWriter, r *http.Request) {
 
 // appInfo is the route that returns the pod information
 func appInfo(w http.ResponseWriter, r *http.Request) {
+	// this needs to be updated when the /info route is implemented
 	tmpl := template.Must(template.ParseFiles(InfoHtml))
 
-	config := Test{
+	greet := AppSetting{
 		Greeting: "This information is for debugging only.",
 	}
 
 	// Display index page from template
-	tmpl.Execute(w, config)
+	tmpl.Execute(w, greet)
 }
