@@ -22,7 +22,7 @@ jobs:
         env:
           CF_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/gobg:latest
         run: |
-          docker build . --file Dockerfile --tag $CF_IMAGE && docker push $CF_IMAGE
+          docker build . --file Containerfile --tag $CF_IMAGE && docker push $CF_IMAGE
           echo "Image should be accessible to your local machine (after docker login) by:"
           echo "docker pull $CF_IMAGE"
           docker pull $CF_IMAGE
