@@ -16,6 +16,7 @@ func Start() {
 	//create/register a new request multiplexer
 	router := mux.NewRouter()
 
+	// register the routes
 	router.Handle("/", gh.CombinedLoggingHandler(os.Stdout, http.HandlerFunc(appRoot)))
 	//router.Handle("/info", gh.CombinedLoggingHandler(os.Stdout, http.HandlerFunc(appInfo)))
 
