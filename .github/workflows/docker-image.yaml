@@ -61,7 +61,7 @@ jobs:
       - name: Setup Git bot
         run: |
           git config user.name "GitHub Action Bot"
-          git config user.email "<>""
+          git config user.email "<>"
       - name: Commit changes
         run: |
           git add .
