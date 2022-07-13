@@ -46,4 +46,4 @@ jobs:
           CF_JIRA_MESSAGE: "A message with embedded issue ( i.e. CR-11027 ) that would be use query jira for the ticket "
           # a specified prefix for finding the jira issue 
           CF_JIRA_PROJECT_PREFIX: "CR"
-        uses: codefresh-io/codefresh-report-image@Marketplace
+        uses: codefresh-io/codefresh-report-image@0.0.83
