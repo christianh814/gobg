@@ -21,7 +21,7 @@ func Start() {
 
 	//router.Handle("/info", gh.CombinedLoggingHandler(os.Stdout, http.HandlerFunc(appInfo)))
 
-	// try to start the app and log output
+	// try to start the app and log output.
 	log.Info("Starting server on port " + HttpPort)
 	log.Fatal(http.ListenAndServe(":"+HttpPort, router))
 }
