@@ -58,6 +58,10 @@ jobs:
             cd $GITHUB_WORKSPACE/deploy/overlays/default/
             kustomize edit set image ${{ secrets.DOCKERHUB_USERNAME }}/gobg:${{ steps.vars.outputs.image_tag }}
             cd -
+      - name: Setup Git bot
+        run: |
+          git config user.name "GitHub Action Bot"
+          git config user.email "<>""
       - name: Commit changes
         run: |
           git add .
