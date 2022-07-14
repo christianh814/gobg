@@ -17,7 +17,7 @@ func Start() {
 	router := mux.NewRouter()
 
 	// Set up path to static assets
-	router.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("./html/assets/"))))
+	router.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("/app/html/assets/"))))
 
 	// register the / route
 	router.Handle("/", gh.CombinedLoggingHandler(os.Stdout, http.HandlerFunc(appRoot)))
