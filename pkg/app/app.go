@@ -19,7 +19,7 @@ func Start() {
 	// Set up path to static assets
 	router.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("/app/html/assets/"))))
 
-	// register the / route
+	// register the / route.
 	router.Handle("/", gh.CombinedLoggingHandler(os.Stdout, http.HandlerFunc(appRoot)))
 
 	//router.Handle("/info", gh.CombinedLoggingHandler(os.Stdout, http.HandlerFunc(appInfo)))
