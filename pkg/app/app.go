@@ -16,6 +16,9 @@ func Start() {
 	//create/register a new request multiplexer
 	router := mux.NewRouter()
 
+	// Set up path to static assets
+	router.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("./html/assets/"))))
+
 	// register the / route
 	router.Handle("/", gh.CombinedLoggingHandler(os.Stdout, http.HandlerFunc(appRoot)))
 
