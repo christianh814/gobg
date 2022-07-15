@@ -15,7 +15,6 @@ jobs:
         id: vars
         run: |
           echo ::set-output name=image_tag::$(echo $GITHUB_SHA  | cut -c1-6)
-          echo ::set-output name=commit_msg::$(cd $GITHUB_WORKSPACE ; git log -1 --pretty=format:"%s"; cd ..)
       - name: Checkout
         uses: actions/checkout@v3
       - name: Login to DockerHub
@@ -67,5 +66,5 @@ jobs:
       - name: Commit changes
         run: |
           git add .
-          git commit -am "Update to ${{ steps.vars.outputs.image_tag }} for ${{ steps.vars.outputs.commit_msg }}"
+          git commit -am "Update Image to ${{ steps.vars.outputs.image_tag }}"
           git push origin main
