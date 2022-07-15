@@ -11,9 +11,11 @@ jobs:
       name: test
     runs-on: ubuntu-latest
     steps:
-      - name: Set Image Tag
+      - name: Set Variables
         id: vars
-        run: echo ::set-output name=image_tag::$(echo $GITHUB_SHA  | cut -c1-6)
+        run: |
+          echo ::set-output name=image_tag::$(echo $GITHUB_SHA  | cut -c1-6)
+          echo ::set-output name=commit_msg::$(git log -1 --pretty=format:"%s")
       - name: Checkout
         uses: actions/checkout@v3
       - name: Login to DockerHub
@@ -65,5 +67,5 @@ jobs:
       - name: Commit changes
         run: |
           git add .
-          git commit -am "Update image to ${{ steps.vars.outputs.image_tag }}"
+          git commit -am "Update to ${{ steps.vars.outputs.image_tag }} for ${{ steps.vars.outputs.commit_msg }}"
           git push origin main
