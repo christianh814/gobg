@@ -15,7 +15,7 @@ jobs:
         id: vars
         run: |
           echo ::set-output name=image_tag::$(echo $GITHUB_SHA  | cut -c1-6)
-          echo ::set-output name=commit_msg::$(git log -1 --pretty=format:"%s")
+          echo ::set-output name=commit_msg::$(cd $GITHUB_WORKSPACE ; git log -1 --pretty=format:"%s"; cd ..)
       - name: Checkout
         uses: actions/checkout@v3
       - name: Login to DockerHub
