@@ -14,9 +14,8 @@ jobs:
       - name: Get Image from Kustomize
         id: lookupImage
         uses: mikefarah/yq@master
-        run: |
-          echo ::set-output name=image_tag::$(yq '.images[0].newTag' $GITHUB_WORKSPACE/deploy/overlays/aks/kustomization.yaml)
-          yq '.images[0].newTag' $GITHUB_WORKSPACE/deploy/overlays/aks/kustomization.yaml
+        with: 
+          cmd: yq '.images[0].newTag' deploy/overlays/aks/kustomization.yaml
       - name: Notify Codefresh Platfrom
         uses: codefresh-io/codefresh-report-image@latest
         with:
@@ -27,7 +26,7 @@ jobs:
           CF_CONTAINER_REGISTRY_INTEGRATION: "dockerhub"
 
           # report image 
-          CF_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/gobg:${{ steps.lookupImage.outputs.image_tag }}
+          CF_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/gobg:${{ steps.lookupImage.outputs.result }}
           # integration with
           CF_ENRICHERS: "jira, git"
           # use githug token
