@@ -2,7 +2,7 @@ name: Prouction Deployment
 
 on:
   push:
-    branches: [ main ]
+    branches: [ unused ]
 jobs:
   build:
     environment:
