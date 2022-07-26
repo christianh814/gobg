@@ -51,5 +51,25 @@ jobs:
         run: gh pr create --title "Update Image in Prod to ${{ steps.vars.outputs.image_tag }}" --body "Update Image to ${{ steps.vars.outputs.image_tag }} for ${{ steps.vars.outputs.commit_msg }}" --base main 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Notify Codefresh Platfrom
+        uses: codefresh-io/codefresh-report-image@latest
+        with:
+          # Specify cluster app-proxy
+          CF_HOST: "${{ secrets.CF_RUNTIME_HOST }}"
+          CF_API_KEY: ${{ secrets.USER_TOKEN }}
+          # use image registry integration - the name of the integration used for pulling information on the image.
+          CF_CONTAINER_REGISTRY_INTEGRATION: "dockerhub"
+
+          # report image 
+          CF_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/gobg:${{ steps.vars.outputs.image_tag }}
+          # integration with
+          CF_ENRICHERS: "jira, git"
+          # use githug token
+          CF_GITHUB_TOKEN: ${{ secrets.CF_GITHUB_TOKEN }}    
+          # use jira integration - jira is the name of the integration created in codefresh argo platform.
+          CF_JIRA_INTEGRATION: "chx-jira" 
+          CF_JIRA_MESSAGE: "Update for SA-498"
+          # a specified prefix for finding the jira issue 
+          CF_JIRA_PROJECT_PREFIX: "SA"
 ##
 ##
