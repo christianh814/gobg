@@ -8,4 +8,4 @@ resources:
 - ../../base
 images:
 - name: christianh814/gobg
-  newTag: 78c669
+  newTag: "333620"
