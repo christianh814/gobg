@@ -14,8 +14,9 @@ jobs:
       - name: Get Image from Kustomize
         id: lookupImage
         uses: mikefarah/yq@master
-        with:
-          cmd: echo ::set-output name=image_tag::$(yq '.images[0].newTag' $GITHUB_WORKSPACE/deploy/overlays/aks/kustomization.yaml)
+        run: |
+          echo ::set-output name=image_tag::$(yq '.images[0].newTag' $GITHUB_WORKSPACE/deploy/overlays/aks/kustomization.yaml)
+          yq '.images[0].newTag' $GITHUB_WORKSPACE/deploy/overlays/aks/kustomization.yaml
       - name: Notify Codefresh Platfrom
         uses: codefresh-io/codefresh-report-image@latest
         with:
