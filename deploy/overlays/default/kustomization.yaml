@@ -5,6 +5,3 @@ namespace: gobg
 resources:
 - namespace.yaml
 - ../../base
-images:
-- name: christianh814/gobg
-  newTag: 91d488
