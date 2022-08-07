@@ -4,8 +4,8 @@ namespace: gobg
 
 resources:
 - namespace.yaml
-- ingress.yaml
+- route.yaml
 - ../../base
 images:
 - name: christianh814/gobg
-  newTag: 465d52
+  newTag: 7e037c
