@@ -13,3 +13,6 @@ patchesJson6902:
       - op: add
         path: /spec/type
         value: LoadBalancer
+      - op: replace
+        path: /spec/ports/0/port
+        value: 80
