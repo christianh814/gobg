@@ -59,7 +59,7 @@ jobs:
           CF_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/gobg:${{ steps.vars.outputs.image_tag }}
           CF_CONTAINER_REGISTRY_INTEGRATION: "dockerhub"
           CF_GITHUB_TOKEN: ${{ secrets.CF_GITHUB_TOKEN }}    
-          CF_JIRA_INTEGRATION: "chx-jira" 
+          CF_JIRA_INTEGRATION: "jira" 
           CF_JIRA_PROJECT_PREFIX: "SA"
           CF_JIRA_MESSAGE: "Update for SA-498"
 
