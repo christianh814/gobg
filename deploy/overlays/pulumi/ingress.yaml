@@ -9,7 +9,7 @@ metadata:
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
   name: gobg-ingress
 spec:
-  ingressClassName: alb
+  ##ingressClassName: alb
   rules:
   - host: bluegreen.codefresh.pulumi-ce.team
     http:
