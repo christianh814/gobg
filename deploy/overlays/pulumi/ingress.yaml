@@ -2,7 +2,9 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    ingress.kubernetes.io/ssl-redirect: "false"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/tls-acme: "true"
+    ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/rewrite-target: /
   name: gobg-ingress
 spec:
@@ -18,3 +20,7 @@ spec:
               number: 8080
         path: /
         pathType: Prefix
+  tls:
+  - hosts:
+    - bluegreen.codefresh.pulumi-ce.team
+    secretName: gobg-ingress-tls
