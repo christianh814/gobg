@@ -2,13 +2,14 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-    kubernetes.io/tls-acme: "true"
-    ingress.kubernetes.io/ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/ingress.class: "alb"
+    alb.ingress.kubernetes.io/target-type: "ip"
+    alb.ingress.kubernetes.io/scheme: "internet-facing"
+    alb.ingress.kubernetes.io/tags: "Project=pulumi-k8s-aws-cluster,Owner=pulumi"
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
   name: gobg-ingress
 spec:
-  ingressClassName: nginx
+  ingressClassName: alb
   rules:
   - host: bluegreen.codefresh.pulumi-ce.team
     http:
@@ -20,7 +21,3 @@ spec:
               number: 8080
         path: /
         pathType: Prefix
-  tls:
-  - hosts:
-    - bluegreen.codefresh.pulumi-ce.team
-    secretName: gobg-ingress-tls
