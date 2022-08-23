@@ -37,7 +37,7 @@ jobs:
         with:
           kustomize: 4.4.1
           command: |
-            cd $GITHUB_WORKSPACE/deploy/overlays/pulumi/
+            cd $GITHUB_WORKSPACE/deploy/overlays/cloud/
             kustomize edit set image ${{ secrets.DOCKERHUB_USERNAME }}/gobg:${{ steps.vars.outputs.image_tag }}
             cd -
       - name: Commit changes
