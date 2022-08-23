@@ -5,14 +5,17 @@ resources:
 - ../../base
 
 patchesJson6902:
-  - target:
-      version: v1
-      kind: Service
-      name: gobg
-    patch: |-
-      - op: add
-        path: /spec/type
-        value: LoadBalancer
-      - op: replace
-        path: /spec/ports/0/port
-        value: 80
+- patch: |-
+    - op: add
+      path: /spec/type
+      value: LoadBalancer
+    - op: replace
+      path: /spec/ports/0/port
+      value: 80
+  target:
+    kind: Service
+    name: gobg
+    version: v1
+images:
+- name: christianh814/gobg
+  newTag: a6adac
