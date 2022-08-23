@@ -6,4 +6,4 @@ resources:
 - ../../base
 images:
 - name: christianh814/gobg
-  newTag: 218cc6
+  newTag: 9bd297
