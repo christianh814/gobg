@@ -18,4 +18,4 @@ patchesJson6902:
     version: v1
 images:
 - name: christianh814/gobg
-  newTag: 9b0a94
+  newTag: 68aff7
