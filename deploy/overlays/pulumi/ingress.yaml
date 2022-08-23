@@ -7,8 +7,8 @@ metadata:
     alb.ingress.kubernetes.io/scheme: "internet-facing"
     alb.ingress.kubernetes.io/tags: "Project=pulumi-k8s-aws-cluster,Owner=pulumi"
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
-    alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:us-east-2:052848974346:certificate/75903a74-20b2-4f69-b558-5180b2bd4af0"
-    alb.ingress.kubernetes.io/security-groups: "sg-0ab6ab022c116bb5d"
+    alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:us-east-2:052848974346:certificate/14a341b9-8c61-4e1f-bddc-9fa24bc70fd3"
+    alb.ingress.kubernetes.io/security-groups: "sg-08b3113b65438b3c9"
   name: gobg-ingress
 spec:
   rules:
