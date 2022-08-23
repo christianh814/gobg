@@ -19,7 +19,7 @@ const InfoHtml string = "html/info.tmpl"
 func appRoot(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles(IndexHtml))
 	greet := AppSetting{
-		Greeting: "Version Blue",
+		Greeting: "Blue Box v1",
 		Color:    "blue",
 	}
 
