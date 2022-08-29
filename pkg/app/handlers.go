@@ -19,14 +19,16 @@ const InfoHtml string = "html/info.tmpl"
 func appRoot(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles(IndexHtml))
 	greet := AppSetting{
-		Greeting: "Orange is the new black.",
-		Color:    "orange",
+		Greeting: "Version: Blue",
+		Color:    "blue",
 	}
 
 	// Display index page from template
 	tmpl.Execute(w, greet)
 }
 
+/*
+// COMMENTING OUT FOR NOW
 // appInfo is the route that returns the pod information
 func appInfo(w http.ResponseWriter, r *http.Request) {
 	// this needs to be updated when the /info route is implemented
@@ -39,3 +41,4 @@ func appInfo(w http.ResponseWriter, r *http.Request) {
 	// Display index page from template
 	tmpl.Execute(w, greet)
 }
+*/
