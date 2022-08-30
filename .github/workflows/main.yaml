@@ -42,13 +42,11 @@ jobs:
           repository: ${{ secrets.DEPLOY_REPOSITORY }}
           token: ${{ secrets.CF_GITHUB_TOKEN }}
           path: gobg-deploy
-      - name: Set foobar to cool
+      - name: Set image on the rollout config
         uses: mikefarah/yq@master
         with:
           cmd: |
-            cd $GITHUB_WORKSPACE/gobg-deploy/deploy/overlays/rollouts
-            yq '.spec.template.spec.containers.[0].image |= "${{ secrets.DOCKERHUB_USERNAME }}/gobg:${{ steps.vars.outputs.image_tag }}"' rollout.yaml
-            cd -
+            yq '.spec.template.spec.containers.[0].image |= "${{ secrets.DOCKERHUB_USERNAME }}/gobg:${{ steps.vars.outputs.image_tag }}"' $GITHUB_WORKSPACE/gobg-deploy/deploy/overlays/rollouts/rollout.yaml
       - name: Commit changes
         run: |
           cd $GITHUB_WORKSPACE/gobg-deploy/
