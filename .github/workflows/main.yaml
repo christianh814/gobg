@@ -2,7 +2,7 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ dev ]
+    branches: [ main ]
 jobs:
   build:
     environment:
@@ -32,25 +32,32 @@ jobs:
           echo "docker pull $CF_IMAGE"
           docker pull $CF_IMAGE
           echo "On the next step, the report image would use the integration to pull information on the reported image, and using the specified enrichers."
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ secrets.DEPLOY_REPOSITORY }}
+          token: ${{ secrets.CF_GITHUB_TOKEN }}
+          path: gobg-deploy
       - name: Run Kustomize
         uses: stefanprodan/kube-tools@v1.7.1
         with:
           kustomize: 4.4.1
           command: |
-            cd $GITHUB_WORKSPACE/deploy/overlays/pulumi/
+            cd $GITHUB_WORKSPACE/gobg-deploy/deploy/overlays/aks/
             kustomize edit set image ${{ secrets.DOCKERHUB_USERNAME }}/gobg:${{ steps.vars.outputs.image_tag }}
             cd -
       - name: Commit changes
         run: |
+          cd $GITHUB_WORKSPACE/gobg-deploy/
           git config --global user.name "GitHub Action Bot"
           git config --global user.email "noreply@github.com"
           git add .
           git commit -am "Update Image to ${{ steps.vars.outputs.image_tag }} for ${{ steps.vars.outputs.commit_msg }}"
-          git push origin ${GITHUB_REF##*/}
-      - name: Create Pull Request
-        run: gh pr create --title "Update Image in Prod to ${{ steps.vars.outputs.image_tag }}" --body "Update Image to ${{ steps.vars.outputs.image_tag }} for ${{ steps.vars.outputs.commit_msg }}" --base main 
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          git push origin main
+      ###- name: Create Pull Request
+        ###run: gh pr create --title "Update Image in Prod to ${{ steps.vars.outputs.image_tag }}" --body "Update Image to ${{ steps.vars.outputs.image_tag }} for ${{ steps.vars.outputs.commit_msg }}" --base main 
+        ###env:
+          ###GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Notify Codefresh Platfrom
         uses: codefresh-io/codefresh-report-image@latest
         with:
