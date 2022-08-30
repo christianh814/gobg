@@ -11,9 +11,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          path: gobg
       - name: Set Variables
         id: vars
         run: |
+          cd ${GITHUB_WORKSPACE}/gobg
           echo ::set-output name=image_tag::$(echo $GITHUB_SHA  | cut -c1-6)
           cd $GITHUB_WORKSPACE
           echo ::set-output name=commit_msg::$(git log -1 --pretty="%s")
@@ -27,11 +30,12 @@ jobs:
         env:
           CF_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/gobg:${{ steps.vars.outputs.image_tag }}
         run: |
+          cd ${GITHUB_WORKSPACE}/gobg
           docker build . --file Containerfile --tag $CF_IMAGE && docker push $CF_IMAGE
           echo "Image should be accessible to your local machine (after docker login) by:"
           echo "docker pull $CF_IMAGE"
           docker pull $CF_IMAGE
-          echo "On the next step, the report image would use the integration to pull information on the reported image, and using the specified enrichers."
+          cd -
       - name: Checkout
         uses: actions/checkout@v3
         with:
