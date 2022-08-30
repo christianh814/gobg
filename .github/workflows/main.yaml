@@ -18,7 +18,7 @@ jobs:
         run: |
           cd ${GITHUB_WORKSPACE}/gobg
           echo ::set-output name=image_tag::$(echo $GITHUB_SHA  | cut -c1-6)
-          cd $GITHUB_WORKSPACE
+          cd ${GITHUB_WORKSPACE}/gobg
           echo ::set-output name=commit_msg::$(git log -1 --pretty="%s")
           cd -
       - name: Login to DockerHub
@@ -42,13 +42,12 @@ jobs:
           repository: ${{ secrets.DEPLOY_REPOSITORY }}
           token: ${{ secrets.CF_GITHUB_TOKEN }}
           path: gobg-deploy
-      - name: Run Kustomize
-        uses: stefanprodan/kube-tools@v1.7.1
+      - name: Set foobar to cool
+        uses: mikefarah/yq@master
         with:
-          kustomize: 4.4.1
-          command: |
-            cd $GITHUB_WORKSPACE/gobg-deploy/deploy/overlays/aks/
-            kustomize edit set image ${{ secrets.DOCKERHUB_USERNAME }}/gobg:${{ steps.vars.outputs.image_tag }}
+          cmd: |
+            cd $GITHUB_WORKSPACE/gobg-deploy/deploy/overlays/rollouts
+            yq '.spec.template.spec.containers.[0].image |= "${{ secrets.DOCKERHUB_USERNAME }}/gobg:${{ steps.vars.outputs.image_tag }}"' rollout.yaml
             cd -
       - name: Commit changes
         run: |
