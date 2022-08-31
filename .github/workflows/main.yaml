@@ -7,7 +7,6 @@ jobs:
   build:
     environment:
       name: test
-    permissions: write-all
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -53,16 +52,15 @@ jobs:
           cd $GITHUB_WORKSPACE/gobg-deploy/
           git config --global user.name "GitHub Action Bot"
           git config --global user.email "noreply@github.com"
-          git checkout -b ${{ steps.vars.outputs.image_tag }}
           git add .
           git commit -am "Update Image to ${{ steps.vars.outputs.image_tag }} for ${{ steps.vars.outputs.commit_msg }}"
-          git push origin ${{ steps.vars.outputs.image_tag }}
-      - name: Create Pull Request
-        run: |
-          cd $GITHUB_WORKSPACE/gobg-deploy/
-          gh pr create --title "Update Image in Prod to ${{ steps.vars.outputs.image_tag }}" --body "Update Image to ${{ steps.vars.outputs.image_tag }} for ${{ steps.vars.outputs.commit_msg }}" --base main 
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          git push origin main
+      ###- name: Create Pull Request
+        ###run: |
+          ###cd $GITHUB_WORKSPACE/gobg-deploy/
+          ###gh pr create --title "Update Image in Prod to ${{ steps.vars.outputs.image_tag }}" --body "Update Image to ${{ steps.vars.outputs.image_tag }} for ${{ steps.vars.outputs.commit_msg }}" --base main 
+        ###env:
+          ###GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Notify Codefresh Platfrom
         uses: codefresh-io/codefresh-report-image@latest
         with:
