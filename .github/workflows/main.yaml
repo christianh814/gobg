@@ -46,14 +46,6 @@ jobs:
         uses: mikefarah/yq@master
         with:
           cmd: yq -i '.spec.template.spec.containers.[0].image |= "${{ secrets.DOCKERHUB_USERNAME }}/gobg:${{ steps.vars.outputs.image_tag }}"' ${GITHUB_WORKSPACE}/gobg-deploy/deploy/overlays/rollouts/rollout.yaml
-      - name: Commit changes
-        run: |
-          cd $GITHUB_WORKSPACE/gobg-deploy/
-          git config --global user.name "GitHub Action Bot"
-          git config --global user.email "noreply@github.com"
-          git add .
-          git commit -am "Update Image to ${{ steps.vars.outputs.image_tag }} for ${{ steps.vars.outputs.commit_msg }}"
-          git push origin dev
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
