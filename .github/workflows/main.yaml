@@ -53,7 +53,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: Update report
           committer: GitHub Action Bot <noreply@github.com>
-          author: GitHub Action Bot <noreply@github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           signoff: false
           branch: ${{ steps.vars.outputs.image_tag }}
           delete-branch: true
