@@ -2,7 +2,7 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ unused ]
 jobs:
   build:
     environment:
@@ -41,6 +41,7 @@ jobs:
         with:
           repository: ${{ secrets.DEPLOY_REPOSITORY }}
           token: ${{ secrets.CF_GITHUB_TOKEN }}
+          ref: dev
           path: gobg-deploy
       - name: Set image on the rollout config
         uses: mikefarah/yq@master
@@ -55,22 +56,11 @@ jobs:
           git commit -am "Update Image to ${{ steps.vars.outputs.image_tag }} for ${{ steps.vars.outputs.commit_msg }}"
           git push origin dev
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v4
-        with:
-          path: gobg-deploy
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: Update report
-          committer: GitHub Action Bot <noreply@github.com>
-          author: GitHub Action Bot <noreply@github.com>
-          signoff: false
-          branch: ${{ steps.vars.outputs.image_tag }}
-          delete-branch: true
-          title: '[PR Bot] Update image to ${{ steps.vars.outputs.image_tag }}'
-          body: |
-            Update:
-            - Updated image to ${{ steps.vars.outputs.image_tag }}
-            - Image has commit message: ${{ steps.vars.outputs.commit_msg }}
-          draft: false
+        run: |
+          cd $GITHUB_WORKSPACE/gobg-deploy/
+          gh pr create --title "Update Image in Prod to ${{ steps.vars.outputs.image_tag }}" --body "Update Image to ${{ steps.vars.outputs.image_tag }} for ${{ steps.vars.outputs.commit_msg }}" --base main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Notify Codefresh Platfrom
         uses: codefresh-io/codefresh-report-image@latest
         with:
@@ -83,5 +73,7 @@ jobs:
           CF_JIRA_INTEGRATION: "jira" 
           CF_JIRA_PROJECT_PREFIX: "SA"
           CF_JIRA_MESSAGE: "Update for SA-498"
+
+          #CF_ENRICHERS: "jira, git"
 ##
 ##
