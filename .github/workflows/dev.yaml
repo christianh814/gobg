@@ -4,7 +4,7 @@ on:
   push:
     branches: [ dev ]
 jobs:
-  build:
+  generatePR:
     environment:
       name: test
     runs-on: ubuntu-latest
