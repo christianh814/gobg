@@ -19,8 +19,8 @@ const InfoHtml string = "html/info.tmpl"
 func appRoot(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles(IndexHtml))
 	greet := AppSetting{
-		Greeting: "Its time for Dodger baseball!",
-		Color:    "dodgerblue",
+		Greeting: "It was all Yellow",
+		Color:    "yellow",
 	}
 
 	// Display index page from template
