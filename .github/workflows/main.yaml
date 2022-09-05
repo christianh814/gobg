@@ -54,7 +54,7 @@ jobs:
         uses: peter-evans/create-pull-request@v4
         with:
           path: gobg-deploy
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.CF_GITHUB_TOKEN }}
           commit-message: Update Image to ${{ steps.vars.outputs.image_tag }}
           committer: GitHub Action Bot <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
