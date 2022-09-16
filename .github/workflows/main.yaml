@@ -62,10 +62,8 @@ jobs:
           token: ${{ secrets.CF_GITHUB_TOKEN }}
           commit-message: Update Image to ${{ steps.vars.outputs.image_tag }}
           committer: GitHub Action Bot <noreply@github.com>
-          ###author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-          author: Christian Hernandez <christian@codefresh.io>
-          ###signoff: false
-          signoff: true
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          signoff: false
           branch: ${{ steps.vars.outputs.image_tag }}
           delete-branch: true
           title: '[PR Bot] Update image to ${{ steps.vars.outputs.image_tag }}'
