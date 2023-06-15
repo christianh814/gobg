@@ -37,19 +37,19 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build & push the Docker image
         env:
-          CF_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/gobg:${{ steps.vars.outputs.image_tag }}
+          IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/gobg:${{ steps.vars.outputs.image_tag }}
         run: |
           cd ${GITHUB_WORKSPACE}/gobg
-          docker build . --file Containerfile --tag $CF_IMAGE && docker push $CF_IMAGE
+          docker build . --file Containerfile --tag $IMAGE && docker push $IMAGE
           echo "Image should be accessible to your local machine (after docker login) by:"
-          echo "docker pull $CF_IMAGE"
-          docker pull $CF_IMAGE
+          echo "docker pull $IMAGE"
+          docker pull $IMAGE
           cd -
       - name: Checkout Deploy Repo
         uses: actions/checkout@v3
         with:
           repository: ${{ secrets.DEPLOY_REPOSITORY }}
-          token: ${{ secrets.CF_GITHUB_TOKEN }}
+          token: ${{ secrets.MY_GITHUB_TOKEN }}
           path: gobg-deploy
       - name: Set image on the rollout config
         uses: mikefarah/yq@master
@@ -59,7 +59,7 @@ jobs:
         uses: peter-evans/create-pull-request@v4
         with:
           path: gobg-deploy
-          token: ${{ secrets.CF_GITHUB_TOKEN }}
+          token: ${{ secrets.MY_GITHUB_TOKEN }}
           commit-message: Update Image to ${{ steps.vars.outputs.image_tag }}
           committer: GitHub Action Bot <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
@@ -72,18 +72,5 @@ jobs:
             - Updated image to ${{ steps.vars.outputs.image_tag }}
             - Image has commit message: ${{ steps.vars.outputs.commit_msg }}
           draft: false
-      - name: Notify Codefresh Platfrom
-        uses: codefresh-io/codefresh-report-image@latest
-        with:
-          CF_RUNTIME_NAME: 'codefresh-hosted'
-          CF_API_KEY: ${{ secrets.USER_TOKEN }}
-          CF_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/gobg:${{ steps.vars.outputs.image_tag }}
-          CF_CONTAINER_REGISTRY_INTEGRATION: "dockerhub"
-          CF_GITHUB_TOKEN: ${{ secrets.CF_GITHUB_TOKEN }}    
-          CF_GIT_BRANCH: "${{ github.event.pull_request.head.ref }}"
-          ##CF_GIT_BRANCH: ${{ github.ref_name }}
-          CF_JIRA_INTEGRATION: "jira" 
-          CF_JIRA_PROJECT_PREFIX: "SA"
-          CF_JIRA_MESSAGE: "Update for SA-498"
 ##
 ##

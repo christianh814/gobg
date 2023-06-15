@@ -20,7 +20,7 @@ func appRoot(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles(IndexHtml))
 	greet := AppSetting{
 		Greeting: "Just a Green Box",
-		Color:    "Green",
+		Color:    "green",
 	}
 
 	// Display index page from template
