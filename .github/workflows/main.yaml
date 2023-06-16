@@ -52,9 +52,10 @@ jobs:
           token: ${{ secrets.MY_GITHUB_TOKEN }}
           path: gobg-deploy
       - name: Set image on the rollout config
-        uses: mikefarah/yq@master
-        with:
-          cmd: yq -i '.spec.template.spec.containers.[0].image |= "${{ secrets.DOCKERHUB_USERNAME }}/gobg:${{ steps.vars.outputs.image_tag }}"' ${GITHUB_WORKSPACE}/gobg-deploy/deploy/overlays/rollouts/rollout.yaml
+        run: |
+          cd ${GITHUB_WORKSPACE}/gobg-deploy/deploy/overlays/gke/
+          kustomize edit set image "${{ secrets.DOCKERHUB_USERNAME }}/gobg:${{ steps.vars.outputs.image_tag }}"
+          cd ${GITHUB_WORKSPACE}
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
