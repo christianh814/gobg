@@ -3,12 +3,21 @@ package app
 import (
 	"html/template"
 	"net/http"
+	"os"
 )
 
 // Set up struct
 type AppSetting struct {
 	Greeting string
 	Color    string
+}
+
+// Info type
+type Info struct {
+	Alert  string
+	Status string
+	Info   map[string]string
+	Msg    string
 }
 
 // Locate where the templates are
@@ -27,18 +36,23 @@ func appRoot(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, greet)
 }
 
-/*
-// COMMENTING OUT FOR NOW
 // appInfo is the route that returns the pod information
 func appInfo(w http.ResponseWriter, r *http.Request) {
 	// this needs to be updated when the /info route is implemented
 	tmpl := template.Must(template.ParseFiles(InfoHtml))
+	info := map[string]string{
+		"Hostname": os.Getenv("HOSTNAME"),
+		"App IP":   os.Getenv("GOBG_SERVICE_HOST"),
+		"App Port": os.Getenv("GOBG_PORT_8080_TCP_PORT"),
+	}
 
-	greet := AppSetting{
-		Greeting: "This information is for debugging only.",
+	config := Info{
+		Info:   info,
+		Status: "App Info:",
+		Alert:  "alert-primary",
+		Msg:    "This information is for debugging only.",
 	}
 
 	// Display index page from template
-	tmpl.Execute(w, greet)
+	tmpl.Execute(w, config)
 }
-*/
